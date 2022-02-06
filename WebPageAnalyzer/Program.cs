@@ -1,13 +1,30 @@
+using Quartz;
+using Quartz.Impl;
+using WebPageAnalyzer;
+using WebPageAnalyzer.Business;
+using WebPageAnalyzer.Business.Observers;
+using WebPageAnalyzer.Extensions;
+using WebPageAnalyzer.Storage.Dto;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add configuration.
+builder.Configuration.Setup();
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Add services to the container.
+builder.Services.Setup(builder.Configuration);
+
 
 var app = builder.Build();
+
+// Publisher
+IObservable<TaskDto> taskPublisher = app.Services.GetService<Notification<TaskDto>>();
+IObservable<string> taskRemover = app.Services.GetService<Notification<string>>();
+
+
+
+// Start jobs
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -23,3 +40,9 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+
+
+
+ 
