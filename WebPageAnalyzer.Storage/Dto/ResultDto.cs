@@ -2,5 +2,5 @@
 
 public class ResultDto : BaseDto
 {
-    private Dictionary<string, int> WordsCount { get; set; }
+    public Dictionary<string, int> WordsCount { get; set; }
 }

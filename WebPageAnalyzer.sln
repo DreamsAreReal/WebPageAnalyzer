@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPageAnalyzer.Storage", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPageAnalyzer.Core", "WebPageAnalyzer.Core\WebPageAnalyzer.Core.csproj", "{CED340AB-A039-4CD3-A36A-5AA10B079610}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPageAnalyzer.Analyzer", "WebPageAnalyzer.Analyzer\WebPageAnalyzer.Analyzer.csproj", "{9E88D049-CE7F-4E44-856E-0FA8212DB93A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPageAnalyzer.Utilities", "WebPageAnalyzer.Utilities\WebPageAnalyzer.Utilities.csproj", "{9E88D049-CE7F-4E44-856E-0FA8212DB93A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

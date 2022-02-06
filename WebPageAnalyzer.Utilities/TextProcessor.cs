@@ -7,9 +7,10 @@ public class TextProcessor
 {
     public StringBuilder Process(ITextProcessor[] processors, StringBuilder stringBuilder)
     {
+        
         foreach (var processor in processors)
         {
-            processor.Process(stringBuilder);
+            stringBuilder = processor.Process(stringBuilder);
         }
 
         return stringBuilder;

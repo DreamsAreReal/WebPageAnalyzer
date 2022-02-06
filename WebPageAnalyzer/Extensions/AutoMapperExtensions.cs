@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using WebPageAnalyzer.Analyzer.Models;
 using WebPageAnalyzer.Storage.Dto;
 
 namespace WebPageAnalyzer.Extensions;
@@ -10,7 +9,6 @@ internal static class AutoMapperExtensions
     {
         expression.CreateMap<TaskInputModel, TaskDto>();
         expression.CreateMap<TaskDto, TaskOutputModel>();
-        expression.CreateMap<WordsCountResult, ResultDto>();
         return expression;
     } 
 }

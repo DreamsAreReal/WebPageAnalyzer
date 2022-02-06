@@ -4,18 +4,15 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>WebPageAnalyzer.Buisness</RootNamespace>
+        <RootNamespace>WebPageAnalyzer.Analyzer</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\WebPageAnalyzer.Utilities\WebPageAnalyzer.Utilities.csproj" />
-      <ProjectReference Include="..\WebPageAnalyzer.Core\WebPageAnalyzer.Core.csproj" />
       <ProjectReference Include="..\WebPageAnalyzer.Storage\WebPageAnalyzer.Storage.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoMapper" Version="11.0.1" />
-      <PackageReference Include="Quartz" Version="3.3.3" />
+      <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
     </ItemGroup>
 
 </Project>

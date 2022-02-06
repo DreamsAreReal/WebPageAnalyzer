@@ -40,12 +40,16 @@ internal static class ServiceCollectionExtensions
         collection.AddAutoMapper(e=>e.Setup());
         
         // Add service
-        collection.AddSingleton<Notification<ResultDto>>();
+        collection.AddSingleton<Notification<string>>();
         collection.AddSingleton<Notification<TaskDto>>();
   
-        collection.AddScoped<Repository<TaskDto>>();
-        collection.AddScoped<Repository<ResultDto>>();
-        collection.AddScoped<JobFactory>();
+        collection.AddTransient<Repository<TaskDto>>();
+        collection.AddTransient<Repository<ResultDto>>();
+        collection.AddTransient<JobFactory>();
+        collection.AddTransient<TaskToDatabaseAppendObserver>();
+        collection.AddTransient<TaskToWorkersAppendObserver>();
+        collection.AddTransient<TaskFromDatabaseRemoveObserver>();
+        collection.AddTransient<TaskFromWorkersRemoveObserver>();
 
 
         return collection;

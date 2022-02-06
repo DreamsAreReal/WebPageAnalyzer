@@ -29,10 +29,7 @@ public class Notification<T> : IObservable<T>, INotification<T>
     {
         foreach (var observer in _observers)
         {
-            Task.Run(() =>
-            {
-                observer.OnNext(task);
-            });
+            observer.OnNext(task);
         }
     }
     

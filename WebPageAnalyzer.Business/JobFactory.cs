@@ -1,5 +1,6 @@
 ﻿using Quartz;
 using Quartz.Impl.Matchers;
+using WebPageAnalyzer.Storage.Dto;
 
 namespace WebPageAnalyzer.Business;
 
@@ -12,17 +13,22 @@ public class JobFactory
         _scheduler = schedulerFactory.GetScheduler().Result;
     }
 
-    public void Add<T>(string url, string cronExpression) where T : IJob
+    public void Add<T>(TaskDto model) where T : IJob
     {
+        JobDataMap data = new JobDataMap
+        {
+            ["data"] = model
+        };
+
         IJobDetail job = JobBuilder.Create<T>()
-            .WithIdentity(url)
+            .WithIdentity(model.Url)
+            .SetJobData(data)
             .Build();
-		
-        // Trigger the job to run now, and then every 40 seconds
+        
         ITrigger trigger = TriggerBuilder.Create()
-            .WithIdentity(url)
-            .WithCronSchedule("0 0/2 8-17 * * ?")
-            .ForJob(url)
+            .WithIdentity(model.Url)
+            .WithCronSchedule(model.CronExpression)
+            .ForJob(model.Url)
             .Build();
         
         _scheduler.ScheduleJob(job, trigger);
