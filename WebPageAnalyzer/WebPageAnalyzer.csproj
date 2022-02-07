@@ -7,18 +7,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="11.0.1"/>
-        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
-        <PackageReference Include="CrystalQuartz.AspNetCore" Version="6.8.1"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0"/>
-        <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.3.3"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
+        <PackageReference Include="AutoMapper" Version="11.0.1" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="CrystalQuartz.AspNetCore" Version="6.8.1" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+        <PackageReference Include="NLog" Version="4.7.13" />
+        <PackageReference Include="NLog.Web.AspNetCore" Version="4.14.0" />
+        <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.3.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\WebPageAnalyzer.Business\WebPageAnalyzer.Business.csproj"/>
-        <ProjectReference Include="..\WebPageAnalyzer.Core\WebPageAnalyzer.Core.csproj"/>
+        <ProjectReference Include="..\WebPageAnalyzer.Business\WebPageAnalyzer.Business.csproj" />
+        <ProjectReference Include="..\WebPageAnalyzer.Core\WebPageAnalyzer.Core.csproj" />
     </ItemGroup>
 
 </Project>

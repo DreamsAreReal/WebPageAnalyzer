@@ -1,4 +1,5 @@
-﻿using WebPageAnalyzer.Storage;
+﻿using Microsoft.Extensions.Logging;
+using WebPageAnalyzer.Storage;
 using WebPageAnalyzer.Storage.Dto;
 
 namespace WebPageAnalyzer.Business.Observers;
@@ -7,15 +8,17 @@ public class TaskFromDatabaseRemoveObserver : IObserver<string>
 {
     private readonly Repository<TaskDto> _repository;
     private string _url;
+    private ILogger<TaskFromDatabaseRemoveObserver> _logger;
 
-    public TaskFromDatabaseRemoveObserver(Repository<TaskDto> repository)
+    public TaskFromDatabaseRemoveObserver(Repository<TaskDto> repository, ILogger<TaskFromDatabaseRemoveObserver> logger)
     {
+        _logger = logger;
         _repository = repository;
     }
 
     public void OnCompleted()
     {
-        Console.WriteLine($"{_url} was deleted from database");
+        _logger.LogInformation($"{_url} was deleted from database");
     }
 
     public void OnError(Exception error)

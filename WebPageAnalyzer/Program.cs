@@ -1,3 +1,4 @@
+using NLog.Web;
 using WebPageAnalyzer.Business;
 using WebPageAnalyzer.Business.Jobs;
 using WebPageAnalyzer.Business.Observers;
@@ -13,6 +14,8 @@ builder.Configuration.Setup();
 
 // Add services to the container.
 builder.Services.Setup(builder.Configuration);
+builder.Host.UseNLog();
+builder.Logging.SetMinimumLevel(LogLevel.Trace);
 
 
 var app = builder.Build();

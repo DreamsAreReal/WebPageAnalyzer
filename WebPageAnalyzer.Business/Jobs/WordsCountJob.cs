@@ -2,12 +2,14 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Quartz;
 using WebPageAnalyzer.Analyzer;
 using WebPageAnalyzer.Analyzer.Parsers;
 using WebPageAnalyzer.Analyzer.TextProcessors;
 using WebPageAnalyzer.Storage;
 using WebPageAnalyzer.Storage.Dto;
+using ILogger = DnsClient.Internal.ILogger;
 
 namespace WebPageAnalyzer.Business.Jobs;
 
@@ -17,9 +19,11 @@ public class WordsCountJob : IJob
     private readonly IParser _parser;
     private readonly ITextProcessor[] _processors;
     private readonly Repository<ResultDto> _repository;
+    private readonly ILogger<WordsCountJob> _logger;
 
-    public WordsCountJob(Repository<ResultDto> repository, IMapper mapper)
+    public WordsCountJob(Repository<ResultDto> repository, IMapper mapper, ILogger<WordsCountJob> logger)
     {
+        _logger = logger;
         _mapper = mapper;
         _parser = new HttpParser();
         _repository = repository;
@@ -40,9 +44,12 @@ public class WordsCountJob : IJob
             var textProcessor = new TextProcessor();
             var data = context.JobDetail.JobDataMap["data"] as TaskDto;
             if (data == null)
+            {
+                _logger.LogError("Data null");
                 throw new Exception("Data null");
-
-            Console.WriteLine($"Job started {data.Url}");
+            }
+            
+            _logger.LogTrace($"Job started {data.Url}");
 
             // Parse and clear text
             var sb = textProcessor.Process(_processors, await _parser.Parse(data.Url));
@@ -68,12 +75,12 @@ public class WordsCountJob : IJob
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            _logger.LogError(e.Message);
         }
         finally
         {
             var timeTaken = timer.Elapsed;
-            Console.WriteLine($"Job done {context.JobDetail.Key} at {timeTaken.ToString(@"m\:ss\.fff")}");
+            _logger.LogTrace($"Job done {context.JobDetail.Key} at {timeTaken.ToString(@"m\:ss\.fff")}");
             _parser.Dispose();
             timer.Stop();
         }

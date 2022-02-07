@@ -43,6 +43,7 @@ internal static class ServiceCollectionExtensions
         collection.AddSingleton<Publisher<string>>();
         collection.AddSingleton<Publisher<TaskDto>>();
 
+        
         collection.AddTransient<Repository<TaskDto>>();
         collection.AddTransient<Repository<ResultDto>>();
         collection.AddTransient<JobFactory>();
@@ -50,6 +51,7 @@ internal static class ServiceCollectionExtensions
         collection.AddTransient<TaskToWorkersAppendObserver>();
         collection.AddTransient<TaskFromDatabaseRemoveObserver>();
         collection.AddTransient<TaskFromWorkersRemoveObserver>();
+        
 
 
         return collection;
