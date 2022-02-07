@@ -2,5 +2,7 @@
 
 public class ResultOutputModel
 {
-    private Dictionary<string, int> WordsCount { get; set; }
+    public Dictionary<string, int> WordsCount { get; set; }
+
+    public DateTime CreatedAt { get; set; }
 }

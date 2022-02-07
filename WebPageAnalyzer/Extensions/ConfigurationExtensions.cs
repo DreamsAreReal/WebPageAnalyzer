@@ -1,7 +1,4 @@
-﻿using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
-
-
-namespace WebPageAnalyzer.Extensions;
+﻿namespace WebPageAnalyzer.Extensions;
 
 internal static class ConfigurationExtensions
 {
@@ -11,5 +8,5 @@ internal static class ConfigurationExtensions
         configuration.AddEnvironmentVariables();
 
         return configuration;
-    } 
+    }
 }

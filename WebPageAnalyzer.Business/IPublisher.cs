@@ -1,6 +1,6 @@
 ﻿namespace WebPageAnalyzer.Business;
 
-public interface INotification<T>
+public interface IPublisher<T>
 {
     void Send(T task);
 }

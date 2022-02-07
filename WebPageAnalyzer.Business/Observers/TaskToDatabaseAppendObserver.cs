@@ -6,13 +6,13 @@ namespace WebPageAnalyzer.Business.Observers;
 public class TaskToDatabaseAppendObserver : IObserver<TaskDto>
 {
     private TaskDto _model;
-    private Repository<TaskDto> _repository;
+    private readonly Repository<TaskDto> _repository;
 
     public TaskToDatabaseAppendObserver(Repository<TaskDto> repository)
     {
         _repository = repository;
     }
-    
+
     public void OnCompleted()
     {
         Console.WriteLine($"{_model.Url} was added to database");

@@ -5,7 +5,6 @@ using WebPageAnalyzer.Business.Observers;
 using WebPageAnalyzer.Core.Options;
 using WebPageAnalyzer.Storage;
 using WebPageAnalyzer.Storage.Dto;
-using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
 namespace WebPageAnalyzer.Extensions;
 
@@ -21,11 +20,12 @@ internal static class ServiceCollectionExtensions
         // Configuration
         collection.Configure<QuartzOptions>(configuration.GetSection("Quartz"));
         collection.Configure<MongoOptions>(configuration.GetSection("Mongo"));
-        
-        
+
+
         // MongoDB
         if (!string.IsNullOrWhiteSpace(configuration.GetSection("Mongo").Get<MongoOptions>().Connection))
-            collection.AddSingleton<IMongoClient>(new MongoClient(configuration.GetSection("Mongo").Get<MongoOptions>().Connection));
+            collection.AddSingleton<IMongoClient>(
+                new MongoClient(configuration.GetSection("Mongo").Get<MongoOptions>().Connection));
 
         // Quartz
         collection.AddQuartz(q =>
@@ -37,12 +37,12 @@ internal static class ServiceCollectionExtensions
         });
 
         // AutoMapper
-        collection.AddAutoMapper(e=>e.Setup());
-        
+        collection.AddAutoMapper(e => e.Setup());
+
         // Add service
-        collection.AddSingleton<Notification<string>>();
-        collection.AddSingleton<Notification<TaskDto>>();
-  
+        collection.AddSingleton<Publisher<string>>();
+        collection.AddSingleton<Publisher<TaskDto>>();
+
         collection.AddTransient<Repository<TaskDto>>();
         collection.AddTransient<Repository<ResultDto>>();
         collection.AddTransient<JobFactory>();

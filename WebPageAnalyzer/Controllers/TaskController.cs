@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebPageAnalyzer.Business;
+using WebPageAnalyzer.Exceptions;
 using WebPageAnalyzer.Storage;
 using WebPageAnalyzer.Storage.Dto;
 
@@ -9,21 +10,21 @@ namespace WebPageAnalyzer.Controllers;
 [Route("api/tasks")]
 public class TaskController : Controller
 {
-    private Repository<TaskDto> _repository;
-    private IMapper _mapper;
-    private INotification<TaskDto> _notificationAppend;
-    private INotification<string> _notificationRemove;
     private JobFactory _jobFactory;
-    
+    private readonly IMapper _mapper;
+    private readonly IPublisher<TaskDto> _publisherAppend;
+    private readonly IPublisher<string> _publisherRemove;
+    private readonly Repository<TaskDto> _repository;
+
     public TaskController(
-        Repository<TaskDto> repository, 
-        IMapper mapper, 
-        Notification<TaskDto> notificationAppend, 
-        Notification<string> notificationRemove
+        Repository<TaskDto> repository,
+        IMapper mapper,
+        Publisher<TaskDto> publisherAppend,
+        Publisher<string> publisherRemove
     )
     {
-        _notificationAppend = notificationAppend;
-        _notificationRemove = notificationRemove;
+        _publisherAppend = publisherAppend;
+        _publisherRemove = publisherRemove;
         _mapper = mapper;
         _repository = repository;
     }
@@ -37,16 +38,29 @@ public class TaskController : Controller
 
 
     [HttpPost]
-    public IActionResult Add(TaskInputModel model)
+    public async Task<IActionResult> Add([FromBody] TaskInputModel model)
     {
+        if (!ModelState.IsValid)
+            throw new ValidationException(ModelState);
+
+        if (await _repository.Get(model.Url) != null) throw new Exception("Task at work");
+
+
         var dto = _mapper.Map<TaskDto>(model);
-        _notificationAppend.Send(dto);
+        _publisherAppend.Send(dto);
         return Ok();
     }
-    
+
+
+    /// <summary>
+    ///     Need to body because url has many symbols
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpDelete]
-    public IActionResult Remove(string url)
+    public IActionResult Remove([FromBody] UrlInputModel model)
     {
+        _publisherRemove.Send(model.Url);
         return Ok();
     }
 }

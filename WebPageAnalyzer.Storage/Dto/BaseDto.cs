@@ -5,8 +5,8 @@ namespace WebPageAnalyzer.Storage.Dto;
 
 public abstract class BaseDto
 {
-    [BsonId]
+    [BsonId] 
     public ObjectId Id { get; internal set; }
+
     public string Url { get; set; }
-    
 }

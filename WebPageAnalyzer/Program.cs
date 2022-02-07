@@ -1,13 +1,9 @@
-using System.Text.RegularExpressions;
-using Quartz;
-using Quartz.Impl;
-using WebPageAnalyzer;
-using WebPageAnalyzer.Analyzer;
-using WebPageAnalyzer.Analyzer.Parsers;
-using WebPageAnalyzer.Analyzer.TextProcessors;
 using WebPageAnalyzer.Business;
+using WebPageAnalyzer.Business.Jobs;
 using WebPageAnalyzer.Business.Observers;
 using WebPageAnalyzer.Extensions;
+using WebPageAnalyzer.Middlewares;
+using WebPageAnalyzer.Storage;
 using WebPageAnalyzer.Storage.Dto;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,10 +18,9 @@ builder.Services.Setup(builder.Configuration);
 var app = builder.Build();
 
 
-
 // Publisher
-IObservable<TaskDto> taskPublisher = app.Services.GetService<Notification<TaskDto>>();
-IObservable<string> taskRemover = app.Services.GetService<Notification<string>>();
+IObservable<TaskDto> taskPublisher = app.Services.GetService<Publisher<TaskDto>>();
+IObservable<string> taskRemover = app.Services.GetService<Publisher<string>>();
 
 taskPublisher.Subscribe(app.Services.GetService<TaskToDatabaseAppendObserver>());
 taskPublisher.Subscribe(app.Services.GetService<TaskToWorkersAppendObserver>());
@@ -34,9 +29,13 @@ taskRemover.Subscribe(app.Services.GetService<TaskFromDatabaseRemoveObserver>())
 taskRemover.Subscribe(app.Services.GetService<TaskFromWorkersRemoveObserver>());
 
 
-
 // Start jobs
-app.Services.GetService<ISchedulerFactory>().GetScheduler().Result.Start();
+var repository = app.Services.GetService<Repository<TaskDto>>();
+var factory = app.Services.GetService<JobFactory>();
+var tasks = repository.Get().Result;
+
+foreach (var task in tasks) factory.Add<WordsCountJob>(task);
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -49,12 +48,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseMiddleware<ExceptionMiddleware>();
+
 app.MapControllers();
 
 app.Run();
-
-
-
-
-
- 

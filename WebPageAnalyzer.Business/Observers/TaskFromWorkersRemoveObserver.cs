@@ -1,18 +1,15 @@
-﻿using WebPageAnalyzer.Storage;
-using WebPageAnalyzer.Storage.Dto;
-
-namespace WebPageAnalyzer.Business.Observers;
+﻿namespace WebPageAnalyzer.Business.Observers;
 
 public class TaskFromWorkersRemoveObserver : IObserver<string>
 {
+    private readonly JobFactory _jobFactory;
     private string _url;
-    private JobFactory _jobFactory;
 
     public TaskFromWorkersRemoveObserver(JobFactory jobFactory)
     {
         _jobFactory = jobFactory;
     }
-    
+
     public void OnCompleted()
     {
         Console.WriteLine($"{_url} was deleted from workers");

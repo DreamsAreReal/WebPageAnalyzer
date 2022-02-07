@@ -1,14 +1,14 @@
 ﻿namespace WebPageAnalyzer.Business;
 
-internal class UnSubscriber<T>  : IDisposable 
+internal class UnSubscriber<T> : IDisposable
 {
-    private readonly List<IObserver<T>> _observers;
     private readonly IObserver<T> _observer;
+    private readonly List<IObserver<T>> _observers;
 
     public UnSubscriber(List<IObserver<T>> observers, IObserver<T> observer)
     {
-        this._observers = observers;
-        this._observer = observer;
+        _observers = observers;
+        _observer = observer;
     }
 
     public void Dispose()
