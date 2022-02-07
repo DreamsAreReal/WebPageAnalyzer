@@ -26,7 +26,7 @@ public class ExceptionMiddleware
         }
         catch (ValidationException ex)
         {
-            await ConstructResponse(httpContext, ex.StatusCode, ex.Message);
+            await ConstructResponse(httpContext, ex.StatusCode, ex.ErrorMessage);
         }
         catch (Exception ex)
         {
